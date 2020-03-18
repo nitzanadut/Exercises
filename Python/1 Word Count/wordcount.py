@@ -41,7 +41,7 @@ def print_words(filename):
         print(item[0], item[1])
     
 def print_top(filename):
-    "Printing the 20th most common words in a file"
+    "Printing the 20 most common words in a file"
     words = extract_words(filename)
 
     words = {k: v for k, v in sorted(words.items(), key=lambda item: item[1], reverse=True)}
