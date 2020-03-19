@@ -8,19 +8,19 @@ class Client:
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def run(self):        
-        self.client.connect((self.ip, self.port))
+        self.client.connect_ex((self.ip, self.port))
 
         try:
             while 1:
                 message = input('> ')
                 self.client.sendall(message.encode())
                 response = self.client.recv(1024)
-                print(response.decode(), end='')
+                print(response.decode())
         finally:
             self.client.close()
 
 def main():
-    client = Client('127.0.0.1', 31337)
+    client = Client('127.0.0.1', 1337)
     client.run()
 
 
