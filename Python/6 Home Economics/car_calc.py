@@ -16,4 +16,4 @@ def calc_months(startPriceOld, startPriceNew, savingPerMonth, percentLossByMonth
     
     return (months, savings + moshe_car_price - car_price)
 
-print(calc_months(2000, 8000, 1000, 0.5))
+print(calc_months(2000, 8000, 1000, 1.5))
