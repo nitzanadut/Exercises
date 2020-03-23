@@ -2,21 +2,33 @@ def fdirection(a, b):
     "1 - Up/Down, 0 - Left/Right"
     return b[0] != a[0]
 
+def get_neighbors(lines, current):
+    "Returns a node's neighbors"
+    neighbors = []
+
+    if current[0] != 0:                 neighbors.append((current[0] - 1, current[1]))
+    if current[0] != len(lines) - 1:    neighbors.append((current[0] + 1, current[1]))
+    if current[1] != 0:                 neighbors.append((current[0], current[1] - 1))
+    if current[1] != len(lines[0]) - 1: neighbors.append((current[0], current[1] + 1))
+
+    return neighbors
+
+def check_floating(lines, visited):
+    "Checks if we have a 'floating' node, meaning not in one path with the others"
+    for i, line in enumerate(lines):
+        for j, c in enumerate(line):
+            if c == ' ': continue
+            if (i, j) not in visited: return True
+    return False
+
 def check_path(current, end, lines, last=(-1,-1)):
     "Checks if a given path is valid"
-
     direction = -1
     visited = []
 
     while current != end:
-        neighbors = []
+        neighbors = get_neighbors(lines, current)
         current_value = lines[current[0]][current[1]]
-
-        # Updating Neighbors
-        if current[0] != 0:                 neighbors.append((current[0] - 1, current[1]))
-        if current[0] != len(lines) - 1:    neighbors.append((current[0] + 1, current[1]))
-        if current[1] != 0:                 neighbors.append((current[0], current[1] - 1))
-        if current[1] != len(lines[0]) - 1: neighbors.append((current[0], current[1] + 1))
         
         potential_next = []
         # Finding the neighbors fitting to be the next step
@@ -34,8 +46,6 @@ def check_path(current, end, lines, last=(-1,-1)):
         next_ = potential_next[0]
         direction = fdirection(current, next_)
         
-#        print(current_value, lines[last[0]][last[1]])
-
         # Validate intersection
         if last != (-1, -1) and current_value == '+':
             if fdirection(current, last) == fdirection(current, next_):
@@ -49,6 +59,10 @@ def check_path(current, end, lines, last=(-1,-1)):
         
         # Change current
         current = next_
+
+    visited.append(end)
+    if check_floating(lines, visited):
+        return False
 
     # Passed all requirements, valid path
     return True
@@ -79,12 +93,14 @@ grid = ["           ",
         "           "]
 print(line_valid(grid))  # ---> True
 
+
 grid = ["     ",
         "  X  ",
         "  |  ",
         "  |  ",
         "  X  "]
 print(line_valid(grid))  # ---> True
+
 
 # Note: this grid is only valid when starting on the right-hand X, but still considered valid
 grid = ["                      ",
@@ -117,4 +133,10 @@ grid = ["      +------+",
 print(line_valid(grid))  # ---> False
 
 grid = ["X-----|-------X"]
+print(line_valid(grid))
+
+grid = ['X+', 'X+']
+print(line_valid(grid))
+
+grid = ['X-----X', '       ', '- -    ']
 print(line_valid(grid))
