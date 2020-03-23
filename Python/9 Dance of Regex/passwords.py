@@ -9,10 +9,7 @@ def main():
     passwords = sys.argv[1].split(',')
 
     # Regex to filter the passwords
-    print(','.join(filter(lambda password: bool(re.match(r'^(.{6,12})$', password)) and
-                                           bool(re.match(r'^.*[a-z]+.*$', password)) and 
-                                           bool(re.match(r'^.*[A-Z]+.*$', password)) and 
-                                           bool(re.match(r'^.*[@#$%^&*]+.*$', password)) , passwords)))
+    print(','.join(filter(lambda password: re.match(r'^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#\$%^&\*]).{6,12}$', password), passwords)))
 
 if __name__ == '__main__':
     main()
