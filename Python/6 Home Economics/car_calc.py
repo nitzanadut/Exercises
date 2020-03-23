@@ -7,12 +7,12 @@ def calc_months(startPriceOld, startPriceNew, savingPerMonth, percentLossByMonth
     while savings + moshe_car_price < car_price:
         months += 1
 
+        if months % 2 == 0:
+            percentLossByMonth += .5
+
         savings += savingPerMonth
         car_price *= (1 - (percentLossByMonth / 100))
         moshe_car_price *= (1 - (percentLossByMonth / 100))
-
-        if months % 2 == 0:
-            percentLossByMonth += .5
     
     return (months, savings + moshe_car_price - car_price)
 
