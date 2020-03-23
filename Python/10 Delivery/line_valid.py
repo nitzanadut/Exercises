@@ -32,14 +32,15 @@ def check_path(current, end, lines, last=(-1,-1)):
             return False
 
         next_ = potential_next[0]
-
         direction = fdirection(current, next_)
         
+#        print(current_value, lines[last[0]][last[1]])
+
         # Validate intersection
         if last != (-1, -1) and current_value == '+':
             if fdirection(current, last) == fdirection(current, next_):
                     return False
-        elif last != (-1, -1) and fdirection(last, current) != fdirection(current, next_):
+        elif last != (-1, -1) and current_value != 'X' and lines[last[0]][last[1]] != 'X' and lines[last[0]][last[1]] != '+' and (fdirection(last, current) != fdirection(current, next_) or current_value != lines[last[0]][last[1]]):
                 return False
         
         # Updating visited and last
@@ -114,3 +115,6 @@ grid = ["      +------+",
         "      |       ",
         "      X       "]
 print(line_valid(grid))  # ---> False
+
+grid = ["X-----|-------X"]
+print(line_valid(grid))
