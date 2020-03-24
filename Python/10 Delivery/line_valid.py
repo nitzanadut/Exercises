@@ -39,6 +39,14 @@ def check_path(current, end, lines, last=(-1,-1)):
                                     current_value != '+' and fdirection(current, neighbor) == direction)):
                 potential_next.append(neighbor)
 
+        # Checking if the neighbor's value doesn't match the direction
+        to_remove = []
+        for pot_next in potential_next:
+            if (fdirection(current, pot_next) == 1 and lines[pot_next[0]][pot_next[1]] == '-') or (fdirection(current, pot_next) == 0 and lines[pot_next[0]][pot_next[1]] == '|'):
+                to_remove.append(pot_next)
+
+        for item in to_remove: potential_next.remove(item)
+
         # Intersection with more than one valid option
         if len(potential_next) != 1:
             return False
@@ -139,4 +147,13 @@ grid = ['X+', 'X+']
 print(line_valid(grid))
 
 grid = ['X-----X', '       ', '- -    ']
+print(line_valid(grid))
+
+grid = ['+-----+',
+        '|+---+|',
+        '||+-+||',
+        '|||X+||',
+        'X|+--+|',
+        ' +----+']
+
 print(line_valid(grid))
