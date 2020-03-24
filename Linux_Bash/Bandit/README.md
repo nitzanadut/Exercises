@@ -144,7 +144,40 @@ $ telnet localhost 30000
 
 **Level 15->16**
 
-
+In the commands you may need they give you openssl, s_client and -ign_eof.
+ign_eof is used to keep the shell open and s_client is a ssl/tls client program.
 ```diff
-$ 
+$ cat /etc/bandit_pass/bandit15 | openssl s_client -ign_eof -connect localhost:30001
+```
+
+**Level 16->17**
+
+After countless tries of trying to do a fancy for loop telnet one liner, I saw nmap in the commands you may need...
+```diff
+$ for((i=31000; i<=32000; i+=1)); do cat /etc/bandit_pass/bandit16 | openssl s_client -ign_eof -connect localhost:$i 2>/dev/null; done
+$ nmap localhost -p 31000-32000
+$ cat /etc/bandit_pass/bandit16 | openssl s_client -ign_eof -connect localhost:31518
+$ cat /etc/bandit_pass/bandit16 | openssl s_client -ign_eof -connect localhost:31790
+```
+
+**Level 17->18**
+
+basic diff.
+```diff
+$ diff passwords.new passwords.old
+```
+
+**Level 18->19**
+
+You can execute a command on the remote shell with ssh that will run before .bashrc :)
+```diff
+$ ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+```
+
+**Level 19->20**
+
+Execute the file with cat
+```diff
+$ ./bandit20-do
+$ ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
