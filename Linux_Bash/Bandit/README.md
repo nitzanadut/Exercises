@@ -108,6 +108,43 @@ $ cat data.txt | tr [a-zA-Z] [n-za-mN-ZA-M]
 
 **Level 12->13**
 
+A repetitive level, just used the file command and bzip, gzip -d and tar to unzip the file.
 ```diff
-$
+$ xxd -r data.txt out
+$ file out
+$ mv out out.gz
+$ gzip -d out.gz
+...
+$ tar xf data6.tar
+$ ls
+$ file data8.bin
+$ mv data8.bin data8.gz
+$ gzip -d data8.gz
+$ ls
+$ file data8
+$ cat data8
+The password is...
+```
+
+**Level 13->14**
+
+I found the sshkey file on the server, and tried to ssh with the -i flag like usual, then it dawned on me I am on bandit.labs... 
+```diff
+$ ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220
+$ ssh -i sshkey.private bandit14@localhost
+```
+
+**Level 14->15**
+
+From solving this ctf in the past I remembered the password for every level is under /etc/bandit_pass. Using telnet to submit the password.
+```diff
+$ cat /etc/bandit_pass/bandit14
+$ telnet localhost 30000
+```
+
+**Level 15->16**
+
+
+```diff
+$ 
 ```
