@@ -181,3 +181,49 @@ Execute the file with cat
 $ ./bandit20-do
 $ ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
+
+**Level 20->21**
+
+We needed to run something that will consistently listen to a connection on port 1337 and when a connection is up, send the password. Running the command in background using & is what I used.
+```diff
+$ (cat /etc/bandit_pass/bandit20 | nc -l -p 1337 &); ./suconnect  1337
+```
+
+**Level 21->22**
+
+Crond is the linux scheduler.
+I went to the directory and saw the job:
+\* \* \* \* \* bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null (Executes every minute)
+```diff
+$ cat cronjob_bandit22
+$ cat /usr/bin/cronjob_bandit22.sh
+$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+
+**Level 22->23**
+
+whoami returns the $USER variable, which is bandit23 when the cronjob is running.
+```diff
+$ cat /usr/bin/cronjob_bandit23.sh
+$ mytarget=$(echo I am user bandit23 | md5sum | cut -d ' ' -f 1)
+$ cat /tmp/$mytarget
+```
+
+**Level 23->24**
+
+cronjob_bandit24.sh just executes than removes any script under /var/spool/bandit24, which bandit23 can read and write to. I made a simple shell script that cats out the password, makes a directory under /tmp and touches a file named $password.
+```diff
+$ cat /usr/bin/cronjob_bandit24.sh
+$ vi /var/spool/bandit24/temp.sh (The script is in Exercises/Linux_Bash/Bandit)
+$ chmod +x /var/spool/bandit24/temp.sh
+$ watch ls /tmp/nitzcurtemp
+```
+
+**Level 24->25**
+
+A simple brute-force into a file, than catting the file into nc.
+I tried the same method with netcatting directly from the for loops, which proved itself to be a horrible mistake. The smallest timeout the command still works with is .5 seconds and this will take 5000 seconds.
+```diff
+$ (for((i=9; i>=0; i-=1)); do for((j=9; j>=0; j-=1)); do for((m=9; m>=0; m-=1)); do for((k=9; k>=0; k-=1)); do echo "$(cat /etc/bandit_pass/bandit24) $i$j$m$k";done;done;done;done) > /tmp/nitzantemp/out
+$ cat /tmp/nitzantemp/out | nc localhost 30002 | grep password
+```
