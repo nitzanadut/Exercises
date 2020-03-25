@@ -20,4 +20,4 @@ Here is a packet which is un-encrypted.
 
 Here is a packet after the xor encryption
 
-![](photos/Encrypted.PNG)
+![](photos/Encrypted.png)
