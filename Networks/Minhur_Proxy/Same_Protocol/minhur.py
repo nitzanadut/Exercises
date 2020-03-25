@@ -2,6 +2,13 @@ import socket
 import selectors
 from threading import Thread
 
+SUPER_SECRET_KEY = 1337
+
+def encrypt(text, key):
+    return ''.join([chr(ord(c) ^ key) for c in text])
+
+def decrypt(ciphertext, key):
+    return ''.join([chr(ord(c) ^ key) for c in ciphertext])
 
 class Server_TCP:
     "This class represents a TCP server"
@@ -134,7 +141,7 @@ class Server_UDP:
 
         if data:
             try:
-                raw = data.decode().split()
+                raw = decrypt(data.decode(), SUPER_SECRET_KEY).split()
                 ip, port, message = raw[0], raw[1], ' '.join(raw[2:])
                 address = (ip, int(port))
                 print('UDP: {0} -> {1}: {2}'.format(addr, address, message))

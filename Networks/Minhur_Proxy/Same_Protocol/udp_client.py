@@ -1,5 +1,13 @@
 import socket
 
+SUPER_SECRET_KEY = 1337
+
+def encrypt(text, key):
+    return ''.join([chr(ord(c) ^ key) for c in text])
+
+def decrypt(ciphertext, key):
+    return ''.join([chr(ord(c) ^ key) for c in ciphertext])
+
 class UDP_Client:
     def __init__(self, ip, port):
         self.ip = ip
@@ -11,7 +19,7 @@ class UDP_Client:
         try:
             while 1:
                 message = input('> ')
-                self.client.sendto(message.encode(), (self.ip, self.port))
+                self.client.sendto(encrypt(message, SUPER_SECRET_KEY).encode(), (self.ip, self.port))
                 response = self.client.recvfrom(4096)[0]
                 print(response.decode())
         finally:
