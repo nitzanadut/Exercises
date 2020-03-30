@@ -11,3 +11,5 @@ Now, let's try it outside of gdb.
 ![](photos/terminal_error.png)
 
 Doesn't seem to work even though show env in gdb returns and empty list.
+
+![](photos/show_env.png)
