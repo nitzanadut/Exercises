@@ -2,7 +2,6 @@
 
 
 In this challenge we can't just change eip straight from the format string, we have an exit function call right after.
-
 We need to somehow change the exit function field in the .got to the address of hello.
 
 
@@ -11,11 +10,9 @@ We need to somehow change the exit function field in the .got to the address of 
 
 No, not Game of Thrones.
 The General Offset Table (GOT for short) is a table of function addresses.
-
 What addresses?
 When you use a function from a shared object, for example exit we can't just jump to exit's address because the compiler doesn't know where it is in memory.
 That's why when you call a function from a shared object for the first time the Procedure Linkage Table (PLT for short) calls a different function that sets the .got field for exit.
-
 From now on, on every exit call, the plt will jump to whatever address the .got has.
 
 
@@ -52,12 +49,9 @@ $ readelf -s format4 | grep hello
 
 **Writing The Exploit**
 
-We've already done a few of these format string attacks already, so we're pretty experienced.
-
+We've already done a few of these format string attacks already, so I'll skip some trivial parts.
 We need 3 %x to change our address with a %n.
-We need to change it to hello's address.
-
-0x080484b4 - exploit length = our value.
+0x080484b4(hello) - exploit_length = our_value.
 After a few tries in gdb I've constructed the following exploit.
 
 ```diff
