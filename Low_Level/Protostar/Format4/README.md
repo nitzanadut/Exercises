@@ -6,6 +6,7 @@ In this challenge we can't just change eip straight from the format string, we h
 We need to somehow change the exit function field in the .got to the address of hello.
 
 
+
 **Got?**
 
 No, not Game of Thrones.
@@ -18,9 +19,11 @@ That's why when you call a function from a shared object for the first time the 
 From now on, on every exit call, the plt will jump to whatever address the .got has.
 
 
+
 **How Can We Exploit This?**
 
 We need to find where exactly the .got field for exit is located so we can change it's value to hello's address and instead of executing exit we'll simply jump to hello.
+
 
 
 **Finding GOT**
@@ -38,12 +41,14 @@ There it is!
 We need to change this address in order to achieve our goal.
 
 
+
 **Finding hello's Address**
 
 ```diff
 $ readelf -s format4 | grep hello
     64: 080484b4    30 FUNC    GLOBAL DEFAULT   14 hello
 ```
+
 
 **Writing The Exploit**
 
