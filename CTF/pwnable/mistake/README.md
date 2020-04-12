@@ -17,7 +17,9 @@ Meaning, fd will equal zero, and not a file pointer!
 We get the password from stdin, that's why there's a delay after the "do not bruteforce..." prompt that's longer than 20 seconds, the program is waiting for user input!
 
 Then, the password is xor'ed with 1.
+
 A = 0x41 = 0b1000001
+
 A ^ 1 = 0b1000000 = @
 
 
