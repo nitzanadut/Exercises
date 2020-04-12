@@ -15,7 +15,7 @@ I tried downloading the first tool, upx, and use it on my binary.
 $ upx -d flag
 ```
 
-I saw strings outputted a regular output and gdb could disassemble main
+I saw strings worked again and outputted regular data and tried to disassemble main, success!
 
 ```diff
 $ gdb flag
